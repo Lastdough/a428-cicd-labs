@@ -1,20 +1,11 @@
 node {
     docker.image('node:16-buster-slim').inside('-p 3000:3000') {
+        checkout scm
         stage('Build') {
-            try {
-                sh 'npm install'
-            } catch (e) {
-                currentBuild.result = 'FAILURE'
-                throw e
-            }
+            sh 'npm install'
         }
         stage('Test'){
-            try {
-                sh './jenkins/scripts/test.sh'
-            } catch (e) {
-                currentBuild.result = 'FAILURE'
-                throw e
-            }
+            sh './jenkins/scripts/test.sh'
         }
     }
 }
